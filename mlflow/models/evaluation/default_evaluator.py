@@ -653,7 +653,9 @@ class DefaultEvaluator(ModelEvaluator):
             # self.feature_names when computing shap_values, as they may differ from the
             # names used during training (e.g. when using np.ndarrays). Instead, we rename
             # shap_values.feature_names here before creating the plots.
-            shap_values.feature_names = [generate_feature_name_if_not_string(n) for n in self.feature_names]
+            shap_values.feature_names = [
+                generate_feature_name_if_not_string(n) for n in self.feature_names
+            ]
         except Exception as e:
             # Shap evaluation might fail on some edge cases, e.g., unsupported input data values
             # or unsupported model on specific shap explainer. Catch exception to prevent it
@@ -1146,9 +1148,7 @@ class DefaultEvaluator(ModelEvaluator):
         The features (`X`) portion of the dataset, guarded against accidental mutations.
         """
         return DefaultEvaluator._MutationGuardedData(
-            _get_dataframe_with_renamed_columns(
-                self.dataset.features_data, self.feature_names
-            )
+            _get_dataframe_with_renamed_columns(self.dataset.features_data, self.feature_names)
         )
 
     class _MutationGuardedData:
